@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import firebase, {auth, db} from "../services/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "./ChatMessage";
@@ -7,10 +7,13 @@ import ChatMessage from "./ChatMessage";
 
 const Chat = () => {
     const messagesRef = db.collection("messages");
-    const query = messagesRef.orderBy("createdAt").limitToLast(25);
+    const query = messagesRef.orderBy("createdAt").limitToLast(50);
 
     const [messages] = useCollectionData(query , {idField : "id"});
     const [formValue, setFormValue] = useState ("");
+
+    // auto scroll
+    const scroller = useRef();
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -23,12 +26,17 @@ const Chat = () => {
         setFormValue("");
     }
 
+    useEffect(() => {
+        scroller.current.scrollIntoView({behavior: "smooth" });
+    }, [messages])
+
     return (
         <>
             <main className="Chat" style = {{backgroundImage:`url("https://i.pinimg.com/originals/92/42/05/924205ea89862667d9de018b820019fd.jpg")`}}>
                 {messages && messages.map((msg) => 
                     <ChatMessage key={msg.id} message ={msg}/>
                 )} 
+                <span ref={scroller}></span>
             </main>
             <form className="form-chat" onSubmit={sendMessage}>
                 <a href=""><i className="fas fa-plus"></i></a>
