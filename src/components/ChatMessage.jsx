@@ -8,8 +8,7 @@ const ChatMessage = ({message}) => {
 
     return (
         <div className={`message-${messageClass}`}>
-        
-                <img src={ "https://i.pinimg.com/originals/8a/34/ba/8a34ba71d213330b1ac2c72388bae527.jpg" || photoURL } width="54px" alt="User photo"/>
+                <img src={ photoURL || "https://i.pinimg.com/originals/8a/34/ba/8a34ba71d213330b1ac2c72388bae527.jpg" } width="54px" alt="User photo"/>
                 <p className="p-pseudo"> {displayName} </p> 
                 <p>{text}</p>    
         </div>

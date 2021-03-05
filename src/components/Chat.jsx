@@ -4,7 +4,6 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "./ChatMessage";
 
 
-
 const Chat = () => {
     const messagesRef = db.collection("messages");
     const query = messagesRef.orderBy("createdAt").limitToLast(50);
